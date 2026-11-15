@@ -1,0 +1,527 @@
+/*
+Theme Name: BigDinosaur
+Theme URI: https://bigdinosaur.org
+Author: Lee Hutchinson
+Description: A reading-focused theme for bigdinosaur.org with a light/dark scheme toggle.
+Version: 0.7.18
+Requires at least: 6.6
+Tested up to: 7.1
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: bigdinosaur
+*/
+
+/* Self-hosted latin subsets of the four faces. The unicode-range on every
+   face keeps other scripts on the fallback stack. */
+@font-face {
+	font-family: 'Crimson Pro';
+	font-style: normal;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url(assets/fonts/crimsonpro-normal-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Crimson Pro';
+	font-style: italic;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url(assets/fonts/crimsonpro-italic-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Jost';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url(assets/fonts/jost-roman-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Jost';
+	font-style: italic;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url(assets/fonts/jost-italic-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Michroma';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(assets/fonts/michroma-400-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(assets/fonts/ibmplexmono-400-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url(assets/fonts/ibmplexmono-500-latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Metric-matched fallbacks: size-adjust and the ascent/descent overrides come
+   from the font-metrics script in tools/, so a local face wraps the same way
+   while the web fonts load. The "Android" variants exist because local()
+   does not follow OS font aliases there, so Noto Serif and Roboto are named
+   outright. Regenerate the numbers if a font file changes. */
+@font-face { font-family: 'Crimson Pro Fallback'; font-style: normal; font-weight: 200 900; src: local('Georgia'); size-adjust: 87.33%; ascent-override: 102.65%; descent-override: 24.60%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Crimson Pro Fallback'; font-style: italic; font-weight: 200 900; src: local('Georgia Italic'), local('Georgia-Italic'); size-adjust: 77.46%; ascent-override: 115.74%; descent-override: 27.74%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Crimson Pro Fallback Android'; font-style: normal; font-weight: 200 900; src: local('Noto Serif'), local('NotoSerif'), local('Noto Serif Regular'), local('NotoSerif-Regular'); size-adjust: 80.96%; ascent-override: 110.73%; descent-override: 26.54%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Crimson Pro Fallback Android'; font-style: italic; font-weight: 200 900; src: local('Noto Serif Italic'), local('NotoSerif-Italic'); size-adjust: 75.20%; ascent-override: 119.21%; descent-override: 28.57%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Jost Fallback'; font-style: normal; font-weight: 100 900; src: local('Arial'), local('ArialMT'); size-adjust: 95.00%; ascent-override: 112.63%; descent-override: 39.47%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Jost Fallback'; font-style: italic; font-weight: 100 900; src: local('Arial Italic'), local('Arial-ItalicMT'); size-adjust: 94.06%; ascent-override: 113.76%; descent-override: 39.87%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Jost Fallback Android'; font-style: normal; font-weight: 100 900; src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular'); size-adjust: 96.45%; ascent-override: 110.94%; descent-override: 38.88%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Jost Fallback Android'; font-style: italic; font-weight: 100 900; src: local('Roboto Italic'), local('Roboto-Italic'); size-adjust: 98.05%; ascent-override: 109.13%; descent-override: 38.25%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Michroma Fallback'; font-style: normal; font-weight: 400; src: local('Arial'), local('ArialMT'); size-adjust: 140.86%; ascent-override: 82.09%; descent-override: 18.86%; line-gap-override: 0.00%; }
+@font-face { font-family: 'Michroma Fallback Android'; font-style: normal; font-weight: 400; src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular'); size-adjust: 143.35%; ascent-override: 80.66%; descent-override: 18.53%; line-gap-override: 0.00%; }
+@font-face { font-family: 'IBM Plex Mono Fallback'; font-style: normal; font-weight: 400 500; src: local('Menlo'), local('Menlo-Regular'); size-adjust: 99.66%; ascent-override: 102.85%; descent-override: 27.59%; line-gap-override: 0.00%; }
+@font-face { font-family: 'IBM Plex Mono Fallback Courier'; font-style: normal; font-weight: 400 500; src: local('Courier New'), local('CourierNewPSMT'); size-adjust: 99.98%; ascent-override: 102.52%; descent-override: 27.50%; line-gap-override: 0.00%; }
+
+/* Design tokens. Light is the default. Dark applies when the head script has
+   set html[data-scheme="dark"], or, when nothing is stored (no data-scheme
+   at all, as without JavaScript), when the OS prefers dark. */
+:root {
+	color-scheme: light;
+	--bg: #ffffff;
+	--ink: #222222;
+	--sub: #575760;
+	--acc: #1a6a9c;
+	--rule: #b2b2be;
+	--surface: #f0f0f0;
+	--surface-2: #eeeeee;
+	--serif: 'Crimson Pro', 'Crimson Pro Fallback', 'Crimson Pro Fallback Android', Georgia, 'Times New Roman', serif;
+	--sans: 'Jost', 'Jost Fallback', 'Jost Fallback Android', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--sysui: var(--sans);
+	--panel: 'Michroma', 'Michroma Fallback', 'Michroma Fallback Android', 'Eurostile', sans-serif;
+	--mono: 'IBM Plex Mono', 'IBM Plex Mono Fallback', 'IBM Plex Mono Fallback Courier', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--gutter: 72px;
+}
+html[data-scheme="dark"] {
+	color-scheme: dark;
+	--bg: #1a1a1a;
+	--ink: #e8e8e8;
+	--sub: #b4b4b4;
+	--acc: #5b9dd9;
+	--rule: #3a3a3a;
+	--surface: #333333;
+	--surface-2: #2d2d2d;
+}
+@media (prefers-color-scheme: dark) {
+	html:not([data-scheme]) {
+		color-scheme: dark;
+		--bg: #1a1a1a;
+		--ink: #e8e8e8;
+		--sub: #b4b4b4;
+		--acc: #5b9dd9;
+		--rule: #3a3a3a;
+		--surface: #333333;
+		--surface-2: #2d2d2d;
+	}
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font: 200 21px/1.65 var(--serif);
+	font-optical-sizing: auto;
+	transition: background-color .3s, color .3s;
+}
+a { color: inherit; text-decoration: none; text-underline-offset: 3px; }
+a:hover { text-decoration: underline; }
+.site-title a:hover, .entry-title a:hover { text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--acc); outline-offset: 4px; }
+img { max-width: 100%; height: auto; }
+.screen-reader-text {
+	position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+	overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.skip-link:focus {
+	position: fixed; top: 8px; left: 8px; z-index: 100; width: auto; height: auto;
+	clip: auto; margin: 0; padding: 8px 12px; background: var(--bg); color: var(--acc);
+	outline: 2px solid var(--acc); font: 500 14px var(--sysui);
+}
+.site { max-width: 1080px; margin: 0 auto; }
+
+.scheme-toggle, .site-nav a, .entry-date, .archive-label, .read-more a, .posts-nav a,
+.post-list-status, .post-nav, .post-nav-label, .site-footer, .page-links {
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+/* Masthead: a two-column grid. Row 1 is mascot and title across both columns,
+   row 2 the menu (left) and the scheme toggle (right), row 3 the rule. */
+.site-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	padding: 24px var(--gutter) 0;
+}
+.masthead { grid-column: 1 / 3; grid-row: 1; display: flex; align-items: center; gap: 20px; }
+.site-mascot { display: block; flex: none; }
+.site-mascot img {
+	display: block;
+	width: 100px;
+	height: 100px;
+}
+.site-title {
+	margin: 0;
+	min-width: 0;
+	/* One unbreakable line of about 6.64em at weight 500, so it shrinks with
+	   the viewport instead of wrapping: 135px is the 100px mascot, its 20px
+	   gap and 15px of scrollbar slack; 6.8 is the em width plus a margin. */
+	font: 500 min(84px, calc((100vw - 2 * var(--gutter) - 135px) / 6.8)) / 1 var(--serif);
+	white-space: nowrap;
+}
+.site-title a { color: var(--ink); }
+.scheme-toggle {
+	grid-column: 2;
+	grid-row: 2;
+	justify-self: end;
+	margin: 0 0 0 24px;
+	font: 400 13px/1.4 var(--panel);
+	letter-spacing: .12em;
+	color: var(--sub);
+	background: none;
+	border: 0;
+	border-radius: 0;
+	min-height: 44px;
+	padding: 8px 0;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: color .3s;
+}
+.scheme-toggle:hover { color: var(--ink); text-decoration: underline; }
+
+.site-nav { grid-column: 1; grid-row: 2; min-width: 0; }
+.site-nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: nowrap;
+	/* Labels never wrap. The six menu labels total about 30.4em; with five
+	   gaps that is the 36em budget. 174px is the toggle (about 150px) plus
+	   its 24px margin. The gap shrinks from 40px to 1em first; only then
+	   does the type shrink below 13px. */
+	font-size: min(13px, calc((100vw - 2 * var(--gutter) - 174px) / 36));
+	gap: clamp(1em, calc((100vw - 2 * var(--gutter) - 174px - 31em) / 5), 40px);
+}
+
+.site-nav a {
+	display: block;
+	padding: 15px 0 13px;
+	font: 400 1em/1.4 var(--panel);
+	letter-spacing: .12em;
+	white-space: nowrap;
+	color: var(--sub);
+	border-bottom: 2px solid transparent;
+	transition: color .3s, border-color .3s;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+	color: var(--ink);
+	border-bottom-color: var(--acc);
+	text-decoration: none;
+}
+.site-header-rule { grid-column: 1 / 3; grid-row: 3; border-top: 1px solid var(--rule); }
+
+.site-intro { padding: 16px var(--gutter) 24px; }
+.site-intro p { margin: 0 0 1em; font: 200 21px/1.65 var(--serif); }
+.site-intro p:last-child { margin-bottom: 0; }
+.site-intro a,
+.entry-content a {
+	color: var(--acc);
+	text-decoration: underline;
+}
+
+.site-main { padding: 16px var(--gutter) 24px; }
+.post-list { display: flex; flex-direction: column; gap: 44px; }
+.entry-date {
+	margin: 10px 0 18px;
+	font: 400 11px/1.5 var(--panel);
+	color: var(--sub);
+}
+.entry-title {
+	margin: 0;
+	font: 400 24px/1.3 var(--panel);
+	letter-spacing: .01em;
+	text-transform: uppercase;
+}
+.entry-title a { color: var(--ink); }
+.entry-summary p {
+	margin: 12px 0 0;
+	font: 200 19px/1.6 var(--serif);
+	color: var(--ink);
+}
+.entry-summary a { color: var(--acc); text-decoration: underline; }
+.read-more { margin: 12px 0 0; clear: both; }
+.read-more a,
+.posts-nav a {
+	font: 400 11px var(--panel);
+	color: var(--acc);
+	text-decoration: underline;
+}
+.posts-nav { display: flex; justify-content: space-between; gap: 16px; margin: 0; }
+.posts-nav-older { margin-left: auto; }
+
+/* The post-list script appends articles above these. Without this the browser
+   would anchor the scroll position to them and drag the view down. */
+.posts-nav, .post-list-status, .site-footer { overflow-anchor: none; }
+.post-list-status { margin: 0; font: 400 11px var(--panel); color: var(--sub); text-align: right; }
+.post-list-status:empty { display: none; }
+
+.page-links {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-top: 28px;
+	font: 400 11px/1.5 var(--panel);
+}
+.page-links .post-page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 44px;
+	min-height: 44px;
+}
+.page-links a { color: var(--acc); text-decoration: underline; }
+.page-links .current { font-weight: 700; border-bottom: 2px solid var(--acc); }
+
+.site-main--single { padding-top: 40px; }
+.site-main--single .entry-header { margin-bottom: 28px; }
+.site-main--single .entry-title { font-size: 28px; }
+
+.archive-header { padding: 40px var(--gutter) 0; }
+.archive-label {
+	margin: 0 0 0;
+	font: 400 11px/1.5 var(--panel);
+	color: var(--sub);
+}
+.archive-title { margin: 0 0 1em; font: 400 24px/1.3 var(--panel); letter-spacing: .01em; text-transform: uppercase; }
+.archive-description { margin-top: 12px; font: 200 18px/1.6 var(--serif); color: var(--sub); }
+.archive-description p { margin: 0; }
+.nothing-found { margin: 0; color: var(--sub); }
+
+.post-nav {
+	display: flex;
+	justify-content: space-between;
+	gap: 24px;
+	margin-top: 56px;
+	padding-top: 24px;
+	border-top: 1px solid var(--rule);
+	font: 400 11px/1.4 var(--panel);
+}
+.post-nav a { color: var(--acc); }
+.post-nav-label {
+	display: block;
+	margin-bottom: 4px;
+	font: 400 11px/1.5 var(--panel);
+	color: var(--sub);
+}
+.post-nav-newer { margin-left: auto; text-align: right; }
+
+.error-404 .entry-content { color: var(--sub); }
+.error-404-mascot { margin: 0 0 1.2em; }
+.error-404-mascot img { width: 220px; }
+
+.entry-content > * { margin-top: 0; margin-bottom: 1.2em; }
+.entry-content > :last-child { margin-bottom: 0; }
+.entry-content h2, .entry-content h3, .entry-content h4, .entry-content h5, .entry-content h6 {
+	font-family: var(--sans); font-weight: 600; line-height: 1.25;
+	margin-top: 1.6em; margin-bottom: .5em;
+}
+.entry-content h2, .entry-content h3 { font-family: var(--panel); font-weight: 400; line-height: 1.3; letter-spacing: .01em; text-transform: uppercase; }
+.entry-content h2 { font-size: 24px; }
+.entry-content h3 { font-size: 19px; }
+.entry-content h4, .entry-content h5, .entry-content h6 { font-size: 20px; }
+.entry-content > h2:first-child, .entry-content > h3:first-child { margin-top: 0; }
+
+/* Drop caps use Michroma. The float, uppercase and base size come from core
+   on the editor site and from the static plugin's block CSS on the public
+   site; the size and margins here allow for Michroma's very wide capitals. */
+.entry-content .has-drop-cap:not(:focus)::first-letter,
+.entry-summary .has-drop-cap:not(:focus)::first-letter,
+.site-intro .has-drop-cap:not(:focus)::first-letter {
+	font: 400 6.4em/.78 var(--panel);
+	margin: .08em .14em 0 0;
+}
+.entry-content ul, .entry-content ol { padding-left: 1.4em; }
+.entry-content li { margin-bottom: .3em; }
+.entry-content hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
+.entry-content strong { font-weight: 600; }
+
+/* Images, galleries and embeds only get typography and spacing here. Alignment
+   comes from core on the editor site and from the static plugin's block CSS
+   on the public site. */
+.entry-content figure { margin-left: 0; margin-right: 0; }
+.entry-content .wp-block-image img { display: block; }
+.entry-content figcaption,
+.entry-content .wp-element-caption,
+.entry-summary figcaption,
+.entry-summary .wp-element-caption {
+	font: 400 15px/1.5 var(--sysui);
+	color: var(--sub);
+	margin: .5em 0 0;
+	text-align: inherit;
+}
+.entry-content .wp-block-gallery { margin-bottom: 1.5em; }
+.entry-content .alignleft { margin-right: 1.5em; margin-bottom: .5em; }
+.entry-content .alignright { margin-left: 1.5em; margin-bottom: .5em; }
+/* Editor class "nonbloghead" on an image block: a full-width dark band behind
+   the image. */
+.wp-block-image.nonbloghead { display: block; width: 100%; background: #242932; }
+.wp-block-image.nonbloghead > figure { padding: 20px 0; }
+.entry-content .wp-block-embed { margin-bottom: 1.5em; }
+
+/* Quotes: italic body type with a hanging Michroma ">" marker, no panel or
+   rule. The matching right indent is dropped below 760px. */
+.entry-content .wp-block-quote,
+.entry-content > blockquote {
+	position: relative;
+	margin: 2em 0;
+	padding: 0 56px;
+	background: none;
+	border: 0;
+	font: 200 21px/1.65 var(--serif);
+	font-style: italic;
+}
+.entry-content .wp-block-quote::before,
+.entry-content > blockquote::before {
+	content: ">";
+	position: absolute; left: 0; top: -.1em;
+	font: 400 40px/1 var(--panel); color: var(--sub); font-style: normal;
+}
+.entry-content blockquote p { margin: 0 0 .8em; }
+.entry-content blockquote p:last-child { margin-bottom: 0; }
+.entry-content blockquote cite { display: block; margin-top: .6em; font: 400 15px var(--sysui); color: var(--sub); font-style: normal; }
+
+/* Pullquotes stay full width whatever alignment the editor gave them. Michroma
+   has one weight and no italic, so em and strong are flattened; strong takes
+   the accent color instead. */
+.entry-content .wp-block-pullquote,
+.entry-content .wp-block-pullquote.alignleft,
+.entry-content .wp-block-pullquote.alignright {
+	float: none; width: auto; max-width: none;
+	margin: 2em 0;
+	border-top: 1px solid var(--rule);
+	border-bottom: 1px solid var(--rule);
+	text-align: center;
+}
+.entry-content .wp-block-pullquote { position: relative; padding: 1.7em 0 1.1em; font-size: 15px; line-height: 1.7; }
+
+/* The small quote disc sits on the top rule; its page-colored fill breaks the
+   rule. --quote-mark-x moves it: 50% centered, 33.33% for a left-third
+   position. */
+.entry-content .wp-block-pullquote::before {
+	content: "\201C";
+	position: absolute; top: -16px; left: var(--quote-mark-x, 50%);
+	width: 30px; height: 30px; margin-left: -15px; box-sizing: border-box;
+	border: 1px solid var(--rule); border-radius: 50%; background: var(--bg);
+	font: 600 40px/46px var(--serif); color: var(--sub); text-align: center;
+	transition: background-color .3s, color .3s;
+}
+.entry-content .wp-block-pullquote blockquote {
+	background: none; border: 0; padding: 0; margin: 0;
+	font: 400 1em/1.7 var(--panel); letter-spacing: .08em; text-transform: uppercase;
+}
+.entry-content .wp-block-pullquote p { font-size: 1em; margin: 0; }
+.entry-content .wp-block-pullquote em { font-style: normal; }
+.entry-content .wp-block-pullquote strong { font-weight: 400; color: var(--acc); }
+.entry-content .wp-block-pullquote cite { display: block; margin-top: .8em; font: 400 15px var(--sysui); color: var(--sub); font-style: normal; text-transform: none; letter-spacing: 0; }
+
+.entry-content code {
+	font-family: var(--mono);
+	font-weight: 500;
+	font-size: .8em;
+	background: var(--surface-2);
+	padding: .1em .35em;
+	border-radius: 3px;
+}
+/* Code blocks use the Okaidia palette in both schemes, so posts without Prism
+   match the highlighted ones. Prism's own padding and margin are overridden
+   below. */
+.entry-content pre {
+	font: 400 14px/1.5 var(--mono);
+	color: #f8f8f2;
+	background: #272822;
+	padding: 16px 20px;
+	border-radius: 6px;
+	overflow-x: auto;
+	tab-size: 4;
+}
+.entry-content pre code {
+	font-size: inherit; font-weight: inherit; color: inherit; background: none; padding: 0; border-radius: 0;
+}
+.entry-content pre[class*="language-"] { padding: 16px 20px; margin: 0 0 1.2em; }
+
+.entry-content table { border-collapse: collapse; width: 100%; font-size: .85em; line-height: 1.4; }
+.entry-content th, .entry-content td { border-bottom: 1px solid var(--rule); padding: .5em .6em; text-align: left; vertical-align: top; }
+.entry-content th { font-weight: 600; }
+
+/* The gutter is a margin, not padding, so the rule spans exactly the content
+   column. */
+.site-footer {
+	border-top: 1px solid var(--rule);
+	margin: 0 var(--gutter);
+	padding: 24px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	font: 400 11px/1.5 var(--panel);
+	color: var(--sub);
+}
+.site-footer a { color: var(--sub); }
+.site-footer .footer-email a { color: var(--acc); }
+
+/* Phones: the toggle moves above the title (still right-aligned), the mascot
+   shrinks and the menu takes the whole column. 103px is the 72px mascot, its
+   16px gap and 15px of scrollbar slack. */
+@media (max-width: 760px) {
+	:root { --gutter: 24px; }
+	.site-header { padding-top: 16px; }
+
+	.scheme-toggle { grid-column: 1 / 3; grid-row: 1; margin: 0; min-height: 0; }
+	.masthead { grid-row: 2; gap: 16px; }
+	.site-mascot img { width: 72px; height: 72px; }
+	.site-title { font-size: min(84px, calc((100vw - 2 * var(--gutter) - 103px) / 6.8)); }
+	.site-nav { grid-column: 1 / 3; grid-row: 3; }
+	.site-nav ul {
+		font-size: min(13px, calc((100vw - 2 * var(--gutter)) / 36));
+		gap: clamp(1em, calc((100vw - 2 * var(--gutter) - 31em) / 5), 40px);
+	}
+	.site-header-rule { grid-row: 4; }
+	.entry-title, .archive-title { font-size: 21px; }
+	.site-main--single .entry-title { font-size: 23px; }
+
+	.entry-content .has-drop-cap:not(:focus)::first-letter,
+	.entry-summary .has-drop-cap:not(:focus)::first-letter,
+	.site-intro .has-drop-cap:not(:focus)::first-letter { font-size: 5em; }
+	.site-footer { flex-direction: column; align-items: flex-start; }
+	.post-nav { flex-direction: column; }
+	.post-nav-newer { margin-left: 0; text-align: left; }
+	.entry-content .alignleft, .entry-content .alignright { float: none; margin-left: 0; margin-right: 0; }
+	.entry-content .wp-block-pullquote { font-size: 13px; padding-top: 2.4em; }
+	.entry-content .wp-block-quote, .entry-content > blockquote { padding: 0 0 0 40px; }
+	.entry-content .wp-block-quote::before, .entry-content > blockquote::before { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	body, .scheme-toggle, .site-nav a { transition: none; }
+}
